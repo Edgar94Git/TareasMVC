@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TareasMVC;
@@ -11,9 +12,11 @@ using TareasMVC;
 namespace TareasMVC.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260828005546_Usuarios")]
+    partial class Usuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,7 +247,7 @@ namespace TareasMVC.Migrations
 
                     b.HasIndex("TareaId");
 
-                    b.ToTable("ArchivosAdjuntos", (string)null);
+                    b.ToTable("ArchivosAdjuntos");
                 });
 
             modelBuilder.Entity("TareasMVC.Entidades.Paso", b =>
@@ -269,7 +272,7 @@ namespace TareasMVC.Migrations
 
                     b.HasIndex("TareaId");
 
-                    b.ToTable("Pasos", (string)null);
+                    b.ToTable("Pasos");
                 });
 
             modelBuilder.Entity("TareasMVC.Entidades.Tarea", b =>
@@ -296,7 +299,7 @@ namespace TareasMVC.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tareas", (string)null);
+                    b.ToTable("Tareas");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
