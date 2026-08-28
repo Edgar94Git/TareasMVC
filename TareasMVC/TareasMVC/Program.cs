@@ -1,13 +1,39 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using TareasMVC;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var politicaUsuariosAutenticados = new AuthorizationPolicyBuilder()
+    .RequireAuthenticatedUser()
+    .Build();
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(opciones => 
+{
+    opciones.Filters.Add(new AuthorizeFilter(politicaUsuariosAutenticados));
+});
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddAuthentication();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(opciones =>
+{
+    opciones.Password.RequireDigit = false;
+}).AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.PostConfigure<CookieAuthenticationOptions>(IdentityConstants.ApplicationScheme,
+    options =>
+    {
+        options.LoginPath = "/Usuarios/Login";
+        options.AccessDeniedPath = "/Usuarios/Login";
+    });
 
 var app = builder.Build();
 
@@ -22,6 +48,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
