@@ -67,6 +67,11 @@ namespace TareasMVC.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            else if (resultado.IsLockedOut)
+            {
+                ModelState.AddModelError(string.Empty, "La cuenta está bloqueada temporalmente debido a múltiples intentos fallidos de inicio de sesión. Por favor, inténtelo de nuevo más tarde.");
+                return View(model);
+            }
             else
             {
                 ModelState.AddModelError(string.Empty, "Nombre de usuario o contraseña incorrectos.");
