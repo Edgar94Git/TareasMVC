@@ -6,6 +6,13 @@
 
 <h1>Login</h1>
 
+@if(ViewData.Keys.Contains("Mensaje"))
+{
+    <div class="alert alert-danger">
+        @ViewData["Mensaje"]
+    </div>
+}
+
 <div class="card">
     <div class="card-body">
         <form asp-action="Login">
@@ -30,6 +37,10 @@
 
             <button class="btn-primary btn">Login</button>
             <a class="btn btn-success" asp-action="registro">Crear una nueva cuenta</a>
+
+            <a class="btn btn-success" asp-action="LoginExterno" asp-route-proveedor="Microsoft">
+                Continuar con Microsoft
+            </a>
 
         </form>
     </div>
