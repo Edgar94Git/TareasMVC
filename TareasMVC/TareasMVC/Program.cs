@@ -20,7 +20,11 @@ builder.Services.AddControllersWithViews(opciones =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication().AddMicrosoftAccount(options =>
+{
+    options.ClientId = builder.Configuration["MicrosoftClientId"];
+    options.ClientSecret = builder.Configuration["MicrosoftSecretId"];
+});
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(opciones =>
 {
